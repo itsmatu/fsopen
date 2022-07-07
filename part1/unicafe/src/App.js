@@ -7,36 +7,36 @@ const App = () => {
   const [bad, setBad] = useState(0)
 
   const arr = [good, neutral, bad]
+  const funcs = [setGood, setNeutral, setBad]
 
   return (
-    <div>
+    <>
       <h2>
         Give feedback
       </h2>
-      <button onClick={() => setGood(good + 1)}>
-        Good
-      </button>
-      <button onClick={() => setNeutral(neutral + 1)}>
-        Neutral
-      </button>
-      <button onClick={() => setBad(bad + 1)}>
-        bad
-      </button>
+      <Button name="Good" f={funcs[0]} a={arr[0]}></Button>
+      <Button name="Neutral" f={funcs[1]} a={arr[1]}></Button>
+      <Button name="Bad" f={funcs[2]} a={arr[2]}></Button>
       <h2>
         Statistics
       </h2>
       <FeedbackGiven value={arr} />
-    </div>
+    </>
   )
 }
 
+const Button = props => <button onClick={() => props.f(props.a + 1)}>{props.name}</button>
+
 const Stats = (props) => {
   return (
-    <>
-      <p>
-        {props.name} {props.value}
-      </p>
-    </>
+    <tr>
+      <td>
+        {props.name}
+      </td>
+      <td>
+        {props.value}
+      </td>
+    </tr>
   )
 }
 
@@ -76,14 +76,20 @@ const FeedbackGiven = (props) => {
     )
   }
   return (
-    <>
+    <table>
+    <tbody>
     <Stats name='good' value={props.value[0]} />
     <Stats name='neutral' value={props.value[1]} />
     <Stats name='bad' value={props.value[2]} />
     <Stats name='All' value={props.value[0] + props.value[1] + props.value[2]} />
-    <Avg value={props.value} />
-    <Positive value={props.value} />
-    </>
+    <tr>
+    <td><Avg value={props.value} /></td>
+    </tr>
+    <tr>
+    <td><Positive value={props.value} /></td>
+    </tr>
+    </tbody>
+    </table>
   )
 }
 
